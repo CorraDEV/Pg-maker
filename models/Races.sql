@@ -1,0 +1,4 @@
+CREATE TABLE Races (
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(100)
+);
