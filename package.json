@@ -2,18 +2,20 @@
   "name": "pg-maker",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "go": "nodemon --env-file .env index.js"
+    "go": "node --watch --env-file .env app.js",
+    "populatedb": "node --env-file .env ./db/populatedb",
+    "deleteAllData": "node --env-file .env ./db/deleteAllData",
+    "deleteAllTables": "node --env-file .env ./db/deleteAllTables"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "ejs": "^3.1.10",
-    "express": "^4.21.0"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.7"
+    "express": "^4.21.0",
+    "express-validator": "^7.2.0",
+    "pg": "^8.13.0"
   }
 }

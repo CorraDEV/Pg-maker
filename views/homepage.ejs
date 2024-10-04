@@ -8,6 +8,13 @@
 <body>
     <%pages.map(page =>{%>
         <a href="<%=page.url%>"><button><%=page.title%></button></a>
-    <%})%>    
+    <%})%>        
+    <%if(characters.length > 0){%>
+        <ul>
+            <%characters.map(character =>{%>
+                <li><%=`${character.ch_name} | ${character.ra_name} | ${character.ro_name}`%></li>
+            <%})%>                            
+        </ul>
+    <%}%>        
 </body>
 </html>
