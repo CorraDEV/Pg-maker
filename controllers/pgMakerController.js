@@ -1,4 +1,5 @@
-const { getAllCharactersDB, insertRaceDB, insertRoleDB } = require("../db/queries");
+const { getAllCharactersDB, getAllRacesDB, getAllRolesDB,
+    insertRaceDB, insertRoleDB, insertCharacterDB, } = require("../db/queries");
 
 async function insertRace(req, res){
     const { raceName } = req.body;
@@ -12,18 +13,26 @@ async function insertRole(req, res){
     res.redirect("/");
 }
 
+async function insertCharacter(req, res){
+    const { name, race, role } = req.body;
+    await insertCharacterDB(name, race, role);
+    res.redirect("/");
+}
+
 async function renderHomepage(req, res){
     const pages = [
         {title: "Add Character", url: "./addCharacter"},
         {title: "Add Race", url: "./addRace"},
         {title: "Add Role", url: "./addRole"}
     ];
-    const characters = await getAllCharactersDB();    
+    const characters = await getAllCharactersDB();  
     res.render('homepage', { title: 'homepage', pages, characters });
 }
 
-function renderAddCharacter(req, res){
-    res.render('addCharacter', { title: 'Add Character' });
+async function renderAddCharacter(req, res){
+    const races = await getAllRacesDB();    
+    const roles = await getAllRolesDB();    
+    res.render('addCharacter', { title: 'Add Character', races, roles });
 }
 
 function renderAddRace(req, res){
@@ -37,6 +46,7 @@ function renderAddRole(req, res){
 module.exports = { 
     insertRace,
     insertRole,
+    insertCharacter,
     renderHomepage,
     renderAddCharacter,
     renderAddRace,
