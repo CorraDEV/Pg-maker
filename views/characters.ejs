@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<%-include('head', title)%>
+<body>
+    <%console.log(characters)%>
+    <%pages.map(page =>{%>
+        <a href="<%=page.url%>"><button><%=page.title%></button></a>
+    <%})%>      
+    <%if(characters.length > 0){%>
+        <ul>
+            <%characters.map(character =>{%>                
+                <li>
+                    <a href="<%=character.id%>"><%=character.ch_name%></a><%=` | ${character.ra_name} | ${character.ro_name}`%>        
+                </li>
+            <%})%>                            
+        </ul>
+    <%}%>     
+    <a href="new"><button>Add Character</button></a>
+</body>
+</html>

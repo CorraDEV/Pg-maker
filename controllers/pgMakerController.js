@@ -1,17 +1,13 @@
 const { getAllCharactersDB, getAllRacesDB, getAllRolesDB,
-    insertRaceDB, insertRoleDB, insertCharacterDB, } = require("../db/queries");
+getSingleCharacterDB, getSingleRaceDB, getSingleRoleDB,
+insertCharacterDB, insertRaceDB, insertRoleDB, 
+updateCharacterDB, updateRaceDB, updateRoleDB} = require("../db/queries");
 
-async function insertRace(req, res){
-    const { raceName } = req.body;
-    await insertRaceDB(raceName);
-    res.redirect("/");
-}
-
-async function insertRole(req, res){
-    const { roleName } = req.body;
-    await insertRoleDB(roleName);
-    res.redirect("/");
-}
+const pages = [
+    {title: "characters", url: "/"},
+    {title: "races", url: "races"},
+    {title: "roles", url: "roles"}    
+];
 
 async function insertCharacter(req, res){
     const { name, race, role } = req.body;
@@ -19,14 +15,72 @@ async function insertCharacter(req, res){
     res.redirect("/");
 }
 
-async function renderHomepage(req, res){
-    const pages = [
-        {title: "Add Character", url: "./addCharacter"},
-        {title: "Add Race", url: "./addRace"},
-        {title: "Add Role", url: "./addRole"}
-    ];
-    const characters = await getAllCharactersDB();  
-    res.render('homepage', { title: 'homepage', pages, characters });
+async function insertRace(req, res){
+    const { raceName } = req.body;
+    await insertRaceDB(raceName);
+    res.redirect(req.baseUrl);
+}
+
+async function insertRole(req, res){
+    const { roleName } = req.body;
+    await insertRoleDB(roleName);
+    res.redirect(req.baseUrl);
+}
+
+async function updateCharacter(req, res){
+    const { name, race, role } = req.body;
+    const { id } = req.params;
+    await updateCharacterDB(id, name, race, role);
+    res.redirect("/");
+}
+
+async function updateRace(req, res){
+    const { raceName } = req.body;
+    const { id } = req.params;
+    await updateRaceDB(id, raceName);
+    res.redirect(req.baseUrl);    
+}
+
+async function updateRole(req, res){
+    const { roleName } = req.body;
+    const { id } = req.params;
+    await updateRoleDB(id, roleName);
+    res.redirect(req.baseUrl);    
+}
+
+async function renderCharacters(req, res){        
+    const characters = await getAllCharactersDB();      
+    res.render('characters', { title: 'characters', pages, characters });
+}
+
+async function renderRaces(req, res){    
+    const races = await getAllRacesDB();  
+    res.render('races', { title: 'races', pages, races });
+}
+
+async function renderRoles(req, res){    
+    const roles = await getAllRolesDB();  
+    res.render('roles', { title: 'roles', pages, roles });
+}
+
+async function renderSingleCharacter(req, res){        
+    const { id } = req.params;
+    const [character] = await getSingleCharacterDB(id);
+    const races = await getAllRacesDB();
+    const roles = await getAllRolesDB();
+    res.render('singleCharacter', { title: character.ch_name, character, races, roles });
+}
+
+async function renderSingleRace(req, res){        
+    const { id } = req.params;
+    const [race] = await getSingleRaceDB(id);      
+    res.render('singleRace', { title: race.ra_name, race });
+}
+
+async function renderSingleRole(req, res){        
+    const { id } = req.params;
+    const [role] = await getSingleRoleDB(id);      
+    res.render('singleRole', { title: role.ro_name, role });
 }
 
 async function renderAddCharacter(req, res){
@@ -44,10 +98,18 @@ function renderAddRole(req, res){
 }
 
 module.exports = { 
+    insertCharacter,
     insertRace,
     insertRole,
-    insertCharacter,
-    renderHomepage,
+    updateCharacter,
+    updateRace,
+    updateRole,
+    renderCharacters,
+    renderRaces,
+    renderRoles,
+    renderSingleCharacter,
+    renderSingleRace,
+    renderSingleRole,
     renderAddCharacter,
     renderAddRace,
     renderAddRole

@@ -36,7 +36,7 @@ async function populatedb() {
       ('Yonathan', 3, 3);
   `;
 
-  const client = require('./client');
+  const client = require('../models/client');
   await client.connect();
   await client.query(sql);
   await client.end();

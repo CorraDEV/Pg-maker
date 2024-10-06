@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<%-include('head', title)%>
+<body>
+    <%pages.map(page =>{%>
+        <a href="<%=page.url%>"><button><%=page.title%></button></a>
+    <%})%>    
+    <%if(roles.length > 0){%>
+        <ul>
+            <%roles.map(role =>{%>
+                <li><a href="<%=`${title}/${role.id}`%>"><%=`${role.ro_name}`%></a></li>
+            <%})%>                            
+        </ul>
+    <%}%>
+    <a href="<%=title%>/new"><button>Add Role</button></a>      
+</body>
+</html>

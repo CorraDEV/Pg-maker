@@ -5,7 +5,7 @@ async function deleteAllTables() {
         DROP TABLE IF EXISTS Roles;
     `;
   
-    const client = require('./client');
+    const client = require('../models/client');
     await client.connect();
     await client.query(sql);
     await client.end();
