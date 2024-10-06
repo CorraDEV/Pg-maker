@@ -28,19 +28,19 @@ async function getSingleCharacterDB(id) {
         FROM Characters
         LEFT JOIN Races ON Characters.id_race = Races.id
         LEFT JOIN Roles ON Characters.id_role = Roles.id
-        WHERE Characters.id = ${id};
+        WHERE Characters.id = $1;
     `;    
-    const { rows } = await pool.query(sql);     
+    const { rows } = await pool.query(sql, [id]);     
     return rows;
 }
 
 async function getSingleRaceDB(id) {        
-    const { rows } = await pool.query(`SELECT * FROM Races WHERE id = ${id};`); 
+    const { rows } = await pool.query(`SELECT * FROM Races WHERE id = $1;`, [id]); 
     return rows;
 }
 
 async function getSingleRoleDB(id) {
-    const { rows } = await pool.query(`SELECT * FROM Roles WHERE id = ${id};`);    
+    const { rows } = await pool.query(`SELECT * FROM Roles WHERE id = $1;`, [id]);    
     return rows;
 }
 
@@ -58,13 +58,11 @@ async function insertRoleDB(role) {
 }
 
 async function updateCharacterDB(id, name, id_race, id_role) {
-    console.log(id_race);
     const sql = `
         UPDATE Characters 
         SET ch_name = '${name}', id_race = ${id_race}, id_role = ${id_role}
         WHERE id = ${id};
     `;
-    console.log(sql);
     await pool.query(sql);
 }
 

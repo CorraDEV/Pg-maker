@@ -2,7 +2,6 @@
 <html lang="en">
 <%-include('head', title)%>
 <body>
-    <%console.log(characters)%>
     <%pages.map(page =>{%>
         <a href="<%=page.url%>"><button><%=page.title%></button></a>
     <%})%>      
