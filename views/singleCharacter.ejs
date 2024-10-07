@@ -6,18 +6,23 @@
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" value="<%=character.ch_name%>">
         <label for="race">Race:</label>
-        <select id="race" name="race" value="<%=character.ch_race_id%>">
+        <select id="race" name="race">
             <%races.map(race =>{%>
-                <option value="<%=race.id%>"><%=race.ra_name%></option>
+                <option <%=race.id === character.id_race ? 'selected' : ''%> value="<%=race.id%>">
+                    <%=race.ra_name%>
+                </option>
             <%})%>
         </select>
         <label for="role">Role:</label>
-        <select id="role" name="role" value="<%=character.ch_role_id%>">
+        <select id="role" name="role">
             <%roles.map(role =>{%>
-                <option value="<%=role.id%>"><%=role.ro_name%></option>
+                <option <%=role.id === character.id_role ? 'selected' : ''%> value="<%=role.id%>">
+                    <%=role.ro_name%>
+                </option>
             <%})%>
         </select>
-        <input type="submit" value="Edit">
+        <input type="submit" value="Edit">        
     </form>
+    <a href="<%=character.id%>/delete"><button>Delete</button></a>        
 </body>
 </html>

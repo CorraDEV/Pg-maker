@@ -1,7 +1,8 @@
 const { getAllCharactersDB, getAllRacesDB, getAllRolesDB,
 getSingleCharacterDB, getSingleRaceDB, getSingleRoleDB,
 insertCharacterDB, insertRaceDB, insertRoleDB, 
-updateCharacterDB, updateRaceDB, updateRoleDB} = require("../db/queries");
+updateCharacterDB, updateRaceDB, updateRoleDB,
+deleteCharacterDB, deleteRaceDB, deleteRoleDB} = require("../db/queries");
 
 const pages = [
     {title: "characters", url: "/"},
@@ -46,6 +47,24 @@ async function updateRole(req, res){
     const { id } = req.params;
     await updateRoleDB(id, roleName);
     res.redirect(req.baseUrl);    
+}
+
+async function deleteCharacter(req, res){    
+    const { id } = req.params;
+    await deleteCharacterDB(id);
+    res.redirect("/");
+}
+
+async function deleteRace(req, res){
+    const { id } = req.params;
+    await deleteRaceDB(id);
+    res.redirect(req.baseUrl);
+}
+
+async function deleteRole(req, res){
+    const { id } = req.params;
+    await deleteRoleDB(id);
+    res.redirect(req.baseUrl);
 }
 
 async function renderCharacters(req, res){        
@@ -104,6 +123,9 @@ module.exports = {
     updateCharacter,
     updateRace,
     updateRole,
+    deleteCharacter,
+    deleteRace,
+    deleteRole,
     renderCharacters,
     renderRaces,
     renderRoles,
