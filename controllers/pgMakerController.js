@@ -1,3 +1,4 @@
+const { validationResult } = require('express-validator');
 const { getAllCharactersDB, getAllRacesDB, getAllRolesDB,
 getSingleCharacterDB, getSingleRaceDB, getSingleRoleDB,
 insertCharacterDB, insertRaceDB, insertRoleDB, 
@@ -11,42 +12,84 @@ const pages = [
 ];
 
 async function insertCharacter(req, res){
-    const { name, race, role } = req.body;
-    await insertCharacterDB(name, race, role);
-    res.redirect("/");
+    const checkResult = validationResult(req);
+
+    if(checkResult.isEmpty()){
+        const { name, race, role } = req.body;
+        await insertCharacterDB(name, race, role);
+        res.redirect("/");
+    }
+    else{
+        res.json({ errors: checkResult.array() });
+    }        
 }
 
 async function insertRace(req, res){
-    const { raceName } = req.body;
-    await insertRaceDB(raceName);
-    res.redirect(req.baseUrl);
+    const checkResult = validationResult(req);
+
+    if(checkResult.isEmpty()){
+        const { raceName } = req.body;
+        await insertRaceDB(raceName);
+        res.redirect(req.baseUrl);        
+    }
+    else{
+        res.json({ errors: checkResult.array() });
+    }    
 }
 
 async function insertRole(req, res){
-    const { roleName } = req.body;
-    await insertRoleDB(roleName);
-    res.redirect(req.baseUrl);
+    const checkResult = validationResult(req);
+
+    if(checkResult.isEmpty()){
+        const { roleName } = req.body;
+        await insertRoleDB(roleName);
+        res.redirect(req.baseUrl);        
+    }
+    else{
+        res.json({ errors: checkResult.array() });
+    }    
 }
 
 async function updateCharacter(req, res){
-    const { name, race, role } = req.body;
-    const { id } = req.params;
-    await updateCharacterDB(id, name, race, role);
-    res.redirect("/");
+    const checkResult = validationResult(req);
+
+    if(checkResult.isEmpty()){
+        const { name, race, role } = req.body;
+        const { id } = req.params;
+        await updateCharacterDB(id, name, race, role);
+        res.redirect("/");        
+    }
+    else{
+        res.json({ errors: checkResult.array() });
+    }    
 }
 
 async function updateRace(req, res){
-    const { raceName } = req.body;
-    const { id } = req.params;
-    await updateRaceDB(id, raceName);
-    res.redirect(req.baseUrl);    
+    const checkResult = validationResult(req);
+    
+    if(checkResult.isEmpty()){
+        const { raceName } = req.body;
+        const { id } = req.params;
+        await updateRaceDB(id, raceName);
+        res.redirect(req.baseUrl);          
+    }
+    else{
+        res.json({ errors: checkResult.array() });
+    }    
 }
 
 async function updateRole(req, res){
-    const { roleName } = req.body;
-    const { id } = req.params;
-    await updateRoleDB(id, roleName);
-    res.redirect(req.baseUrl);    
+    const checkResult = validationResult(req);
+
+    if(checkResult.isEmpty()){
+        const { roleName } = req.body;
+        const { id } = req.params;
+        await updateRoleDB(id, roleName);
+        res.redirect(req.baseUrl);        
+    }    
+    else{
+        res.json({ errors: checkResult.array() });
+    }    
 }
 
 async function deleteCharacter(req, res){    
@@ -85,6 +128,7 @@ async function renderRoles(req, res){
 async function renderSingleCharacter(req, res){        
     const { id } = req.params;
     const [character] = await getSingleCharacterDB(id);
+    console.log(character);
     const races = await getAllRacesDB();
     const roles = await getAllRolesDB();
     res.render('singleCharacter', { title: character.ch_name, character, races, roles });

@@ -2,8 +2,7 @@ const pool = require("../models/pool");
 
 async function getAllCharactersDB() {
     const sql = `
-        SELECT Characters.id, ch_name, COALESCE(ra_name, 'null') as ra_name,
-        COALESCE(ro_name, 'null') as ro_name
+        SELECT Characters.id, ch_name, ra_name as ra_name, ro_name as ro_name
         FROM Characters
         LEFT JOIN Races ON Characters.id_race = Races.id
         LEFT JOIN Roles ON Characters.id_role = Roles.id
@@ -65,29 +64,17 @@ async function insertRoleDB(role) {
 }
 
 async function updateCharacterDB(id, name, id_race, id_role) {
-    const sql = `
-        UPDATE Characters 
-        SET ch_name = $1, id_race = $2, id_role = $3
-        WHERE id = $4;
-    `;
+    const sql = "UPDATE Characters SET ch_name = $1, id_race = $2, id_role = $3 WHERE id = $4;";
     await pool.query(sql, [name, id_race, id_role, id]);
 }
 
 async function updateRaceDB(id, name) {
-    const sql = `
-        UPDATE Races 
-        SET ra_name = $1
-        WHERE id = $2;
-    `;
+    const sql = "UPDATE Races SET ra_name = $1 WHERE id = $2;";    
     await pool.query(sql, [name, id]);
 }
 
 async function updateRoleDB(id, name) {
-    const sql = `
-        UPDATE Roles 
-        SET ro_name = $1
-        WHERE id = $2;
-    `;
+    const sql = "UPDATE Roles SET ro_name = $1 WHERE id = $2;";    
     await pool.query(sql, [name, id]);
 }
 

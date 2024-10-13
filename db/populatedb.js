@@ -13,8 +13,8 @@ async function populatedb() {
     CREATE TABLE IF NOT EXISTS Characters (
       id SERIAL PRIMARY KEY,
       ch_name VARCHAR(100),
-      id_role integer REFERENCES Roles (id),
-      id_race integer REFERENCES Races (id)
+      id_role integer REFERENCES Roles (id) ON DELETE SET NULL,
+      id_race integer REFERENCES Races (id) ON DELETE SET NULL
     );    
 
     INSERT INTO Races (ra_name) 
