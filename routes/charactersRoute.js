@@ -6,6 +6,7 @@ const { renderCharacters, renderSingleCharacter, renderAddCharacter,
 insertCharacter, updateCharacter, deleteCharacter } = require("../controllers/pgMakerController");
 
 router.get('/', renderCharacters);
+router.get('/favicon.ico', (req, res) => res.status(204));
 router.get('/new', renderAddCharacter);
 router.post('/new', checkCharacter(), insertCharacter);
 router.get('/:id', renderSingleCharacter);

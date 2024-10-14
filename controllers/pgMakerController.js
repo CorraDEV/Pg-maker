@@ -128,7 +128,6 @@ async function renderRoles(req, res){
 async function renderSingleCharacter(req, res){        
     const { id } = req.params;
     const [character] = await getSingleCharacterDB(id);
-    console.log(character);
     const races = await getAllRacesDB();
     const roles = await getAllRolesDB();
     res.render('singleCharacter', { title: character.ch_name, character, races, roles });
